@@ -5,8 +5,8 @@
  */
 package com.linhtd.demo.controller;
 
-import com.linhtd.demo.dao.CategoryRepository;
-import com.linhtd.demo.dao.OrderRepository;
+import com.linhtd.demo.repository.CategoryRepository;
+import com.linhtd.demo.repository.OrderRepository;
 import com.linhtd.demo.entity.Category;
 import com.linhtd.demo.entity.Order;
 import java.sql.Date;

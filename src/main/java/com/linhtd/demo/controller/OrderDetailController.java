@@ -5,9 +5,9 @@
  */
 package com.linhtd.demo.controller;
 
-import com.linhtd.demo.dao.OrderDetailRepository;
-import com.linhtd.demo.dao.OrderRepository;
-import com.linhtd.demo.dao.ProductRepository;
+import com.linhtd.demo.repository.OrderDetailRepository;
+import com.linhtd.demo.repository.OrderRepository;
+import com.linhtd.demo.repository.ProductRepository;
 import com.linhtd.demo.entity.Order;
 import com.linhtd.demo.entity.OrderDetail;
 import com.linhtd.demo.entity.OrderDetailIdentity;

@@ -5,7 +5,7 @@
  */
 package com.linhtd.demo.controller;
 
-import com.linhtd.demo.dao.ProductRepository;
+import com.linhtd.demo.repository.ProductRepository;
 import com.linhtd.demo.entity.Product;
 import java.sql.Date;
 import java.time.LocalDate;

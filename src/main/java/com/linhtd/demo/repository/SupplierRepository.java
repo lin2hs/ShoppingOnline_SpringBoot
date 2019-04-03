@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.linhtd.demo.dao;
+package com.linhtd.demo.repository;
 
-import com.linhtd.demo.entity.Product;
+import com.linhtd.demo.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author Linh
  */
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
     
 }

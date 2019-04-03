@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.linhtd.demo.dao;
+package com.linhtd.demo.repository;
 
 import com.linhtd.demo.entity.OrderDetail;
 import com.linhtd.demo.entity.OrderDetailIdentity;
