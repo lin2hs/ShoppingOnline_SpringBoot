@@ -8,7 +8,7 @@ package com.linhtd.demo.service;
 import com.linhtd.demo.entity.User;
 import com.linhtd.demo.repository.UserRepository;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +35,16 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    public Page<User> findAllUser(String search, int page, int size) {
+    public Page<User> findAllUser(String search, Integer page, Integer size) {
+        if (search == null) {
+            search = "";
+        }
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 0;
+        }
         Pageable sortedByCreatedDateDesc
                 = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<User> result = userRepository.findAll(where(UserRepository.filterByName(search)), sortedByCreatedDateDesc);
@@ -51,8 +60,7 @@ public class UserService {
             user.setRole("ROLE_USER");
             user.setActive(true);
             user.setPassword(encoder.encode(user.getPassword()));
-            user.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
-            user.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
+            user.setCreatedDate(Timestamp.valueOf(String.valueOf(Calendar.getInstance().getTime())));
             return userRepository.save(user);
         }
     }

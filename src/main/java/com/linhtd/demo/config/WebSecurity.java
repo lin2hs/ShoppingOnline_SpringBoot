@@ -58,7 +58,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.PUT, "/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/user/**","/auth/user/product/cart").permitAll()
                 .antMatchers("/","/static/**","/**.{js,json,css}").permitAll()
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
+                // Permit all request temporary
+                .anyRequest().permitAll()
+//                .and()
+//                .logout().deleteCookies("remove").invalidateHttpSession(false).logoutUrl("/auth/user/logout")
+//                .logoutSuccessUrl(logoutSuccessUrl)
                 .and()
                 .addFilter(authenticationFilter)
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))

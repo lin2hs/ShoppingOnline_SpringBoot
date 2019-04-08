@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,9 +39,9 @@ public class Order implements Serializable {
     @Size(max = 150)
     private String description;
     
-    @Column(name = "userid")
-    @NotNull
-    private int userid;
+    @ManyToOne
+    @JoinColumn(name = "userid")
+    private User userid;
     
     @Column(name = "oderdate")
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,7 +62,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(int id, String description, int userid, Date orderdate, boolean shipped, boolean valid, Date modify) {
+    public Order(int id, String description, User userid, Date orderdate, boolean shipped, boolean valid, Date modify) {
         this.id = id;
         this.description = description;
         this.userid = userid;
@@ -86,11 +88,11 @@ public class Order implements Serializable {
         this.description = description;
     }
 
-    public int getUserid() {
+    public User getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(User userid) {
         this.userid = userid;
     }
 

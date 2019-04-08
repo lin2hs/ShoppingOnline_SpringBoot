@@ -12,8 +12,7 @@ import com.linhtd.demo.entity.Order;
 import com.linhtd.demo.entity.OrderDetail;
 import com.linhtd.demo.entity.OrderDetailIdentity;
 import com.linhtd.demo.entity.Product;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -91,7 +90,7 @@ public class OrderDetailController {
                     orderDetail.setQuantity(edittedOrderDetail.getQuantity());
                     orderDetail.setDiscount(edittedOrderDetail.getDiscount());
                     orderDetail.setValid(edittedOrderDetail.isValid());
-                    orderDetail.setModify(Date.valueOf(LocalDate.now()));
+                    orderDetail.setModify(Calendar.getInstance().getTime());
                     return orderDetailRepository.save(orderDetail);
                 })
                 .orElseGet(() -> {

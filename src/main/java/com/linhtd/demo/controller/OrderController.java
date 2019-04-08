@@ -5,12 +5,9 @@
  */
 package com.linhtd.demo.controller;
 
-import com.linhtd.demo.repository.CategoryRepository;
 import com.linhtd.demo.repository.OrderRepository;
-import com.linhtd.demo.entity.Category;
 import com.linhtd.demo.entity.Order;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,6 +49,7 @@ public class OrderController {
     @PostMapping(value = "")
     @CrossOrigin(value = "http://wwww.localhost:4200")
     Order create(@RequestBody Order newOrder) {
+        newOrder.setOrderdate(Calendar.getInstance().getTime());
         return orderRepository.save(newOrder);
     }
 
@@ -66,7 +64,7 @@ public class OrderController {
                     order.setOrderdate(editedOrder.getOrderdate());
                     order.setShipped(editedOrder.isShipped());
                     order.setValid(editedOrder.isValid());
-                    order.setModify(Date.valueOf(LocalDate.now()));
+                    order.setModify(Calendar.getInstance().getTime());
                     return orderRepository.save(order);
                 })
                 .orElseGet(() -> {

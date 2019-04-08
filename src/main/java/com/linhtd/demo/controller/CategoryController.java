@@ -7,8 +7,7 @@ package com.linhtd.demo.controller;
 
 import com.linhtd.demo.repository.CategoryRepository;
 import com.linhtd.demo.entity.Category;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,7 +60,7 @@ public class CategoryController {
                 .map(category -> {
                     category.setName(editedCategory.getName());
                     category.setValid(editedCategory.isValid());
-                    category.setModify(Date.valueOf(LocalDate.now()));
+                    category.setModify(Calendar.getInstance().getTime());
                     return categoryRepository.save(category);
                 })
                 .orElseGet(() -> {

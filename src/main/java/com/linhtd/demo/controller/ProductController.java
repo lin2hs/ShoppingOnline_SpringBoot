@@ -7,8 +7,7 @@ package com.linhtd.demo.controller;
 
 import com.linhtd.demo.repository.ProductRepository;
 import com.linhtd.demo.entity.Product;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,7 +65,7 @@ public class ProductController {
                     product.setSupplier(editedProduct.getSupplier());
                     product.setThumbnail(editedProduct.getThumbnail());
                     product.setValid(editedProduct.isValid());
-                    product.setModify(Date.valueOf(LocalDate.now()));
+                    product.setModify(Calendar.getInstance().getTime());
                     return productRepository.save(product);
                 })
                 .orElseGet(() -> {

@@ -7,8 +7,7 @@ package com.linhtd.demo.controller;
 
 import com.linhtd.demo.repository.SupplierRepository;
 import com.linhtd.demo.entity.Supplier;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,7 +65,7 @@ public class SupplierController {
                     supplier.setPhone(editedSupplier.getPhone());
                     supplier.setFax(editedSupplier.getFax());
                     supplier.setValid(editedSupplier.isValid());
-                    supplier.setModify(Date.valueOf(LocalDate.now()));
+                    supplier.setModify(Calendar.getInstance().getTime());
                     return supplierRepository.save(supplier);
                 })
                 .orElseGet(() -> {
