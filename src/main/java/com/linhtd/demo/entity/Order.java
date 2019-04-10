@@ -43,7 +43,7 @@ public class Order implements Serializable {
     @JoinColumn(name = "userid")
     private User userid;
     
-    @Column(name = "oderdate")
+    @Column(name = "orderdate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderdate;
     

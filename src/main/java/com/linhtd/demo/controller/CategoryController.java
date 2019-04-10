@@ -9,6 +9,7 @@ import com.linhtd.demo.repository.CategoryRepository;
 import com.linhtd.demo.entity.Category;
 import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +48,7 @@ public class CategoryController {
 
     // POST create category
     @PostMapping(value = "")
+    @PreAuthorize("hasRole('ADMIN')")
     @CrossOrigin(value = "http://wwww.localhost:4200")
     Category create(@RequestBody Category newCategory) {
         return categoryRepository.save(newCategory);
@@ -54,6 +56,7 @@ public class CategoryController {
 
     // PUT edit item
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @CrossOrigin(value = "http://wwww.localhost:4200")
     Category update(@RequestBody Category editedCategory, @PathVariable int id) {
         return categoryRepository.findById(id)
@@ -71,6 +74,7 @@ public class CategoryController {
 
     // DELETE remove item
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @CrossOrigin(value = "http://wwww.localhost:4200")
     void delete(@PathVariable int id) {
         categoryRepository.deleteById(id);

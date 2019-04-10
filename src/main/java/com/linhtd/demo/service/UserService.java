@@ -8,7 +8,8 @@ package com.linhtd.demo.service;
 import com.linhtd.demo.entity.User;
 import com.linhtd.demo.repository.UserRepository;
 import java.sql.Timestamp;
-import java.util.Calendar;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -51,7 +52,7 @@ public class UserService {
         return result;
     }
 
-    public User createUser(User user) {
+    public User createUser(User user){
         Optional<User> duplicateUser = userRepository.findByName(user.getName());
         if (duplicateUser.isPresent()) {
             throw new ResponseStatusException(
@@ -60,7 +61,7 @@ public class UserService {
             user.setRole("ROLE_USER");
             user.setActive(true);
             user.setPassword(encoder.encode(user.getPassword()));
-            user.setCreatedDate(Timestamp.valueOf(String.valueOf(Calendar.getInstance().getTime())));
+            user.setCreatedDate(Timestamp.from(Instant.now(Clock.systemUTC())));
             return userRepository.save(user);
         }
     }
