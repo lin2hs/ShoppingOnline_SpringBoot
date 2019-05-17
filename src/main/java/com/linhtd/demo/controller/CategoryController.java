@@ -7,8 +7,14 @@ package com.linhtd.demo.controller;
 
 import com.linhtd.demo.repository.CategoryRepository;
 import com.linhtd.demo.entity.Category;
+import com.linhtd.demo.entity.Product;
+import com.linhtd.demo.repository.ProductRepository;
 import java.util.Calendar;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -30,6 +37,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     // GET list categories
     @GetMapping(value = "")
@@ -77,7 +87,37 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @CrossOrigin(value = "http://wwww.localhost:4200")
     void delete(@PathVariable int id) {
-        categoryRepository.deleteById(id);
+        List<Product> listProduct = productRepository.findAll();
+        for (int i = 0; i < listProduct.size(); i++) {
+            if (listProduct.get(i).getCategory().getId() == id) {
+                return;
+            }
+            categoryRepository.deleteById(id);
+        }
     }
 
+    // GET item by name and paging
+    @GetMapping(value = "/search")
+    @CrossOrigin(value = "http://wwww.localhost:4200")
+    Iterable<Category> findByName(@RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "page", required = false) Integer page) {
+        if (keyword == null) {
+            keyword = "";
+        }
+        if (page == null) {
+            return categoryRepository.findByName(keyword);
+        } else {
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "name"));
+            Pageable pageable = new PageRequest(page, 2, sort);
+            return categoryRepository.findAndPaging(keyword, pageable);
+        }
+    }
+
+    // GET item by name & paging
+//    @GetMapping(value = "/search/{keyword}")
+//    @CrossOrigin(value = "http://wwww.localhost:4200")
+//    Iterable<Category> findByName(@PathVariable String keyword) {
+//        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "name"));
+//        Pageable pageable = new PageRequest(page, 2, sort);
+//        return categoryRepository.findAndPaging(keyword, pageable);
+//    }
 }

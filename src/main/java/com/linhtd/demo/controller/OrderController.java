@@ -9,7 +9,9 @@ import com.linhtd.demo.repository.OrderRepository;
 import com.linhtd.demo.entity.Order;
 import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -65,6 +68,7 @@ public class OrderController {
                     order.setOrderdate(editedOrder.getOrderdate());
                     order.setShipped(editedOrder.isShipped());
                     order.setValid(editedOrder.isValid());
+                    order.setVoucherid(editedOrder.getVoucherid());
                     order.setModify(Calendar.getInstance().getTime());
                     return orderRepository.save(order);
                 })
@@ -81,4 +85,20 @@ public class OrderController {
         orderRepository.deleteById(id);
     }
 
+        // GET item by name and paging
+    @GetMapping(value = "/search")
+    @CrossOrigin(value = "http://wwww.localhost:4200")
+    Iterable<Order> findByName(@RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "page", required = false) Integer page) {
+        if(keyword == null) {
+            keyword = "";
+        }
+        if (page == null) {
+            return orderRepository.findByDescription(keyword);
+        } else {
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "description"));
+            Pageable pageable = new PageRequest(page, 2, sort);
+            return orderRepository.findAndPaging(keyword, pageable);
+        }
+    }
+    
 }

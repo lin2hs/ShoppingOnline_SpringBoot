@@ -58,11 +58,15 @@ public class Order implements Serializable {
     @Column(name = "modify")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modify;
+    
+    @ManyToOne
+    @JoinColumn(name = "voucherid")
+    private Voucher voucherid;
 
     public Order() {
     }
 
-    public Order(int id, String description, User userid, Date orderdate, boolean shipped, boolean valid, Date modify) {
+    public Order(int id, String description, User userid, Date orderdate, boolean shipped, boolean valid, Date modify, Voucher voucherid) {
         this.id = id;
         this.description = description;
         this.userid = userid;
@@ -70,6 +74,7 @@ public class Order implements Serializable {
         this.shipped = shipped;
         this.valid = valid;
         this.modify = modify;
+        this.voucherid = voucherid;
     }
 
     public int getId() {
@@ -127,5 +132,15 @@ public class Order implements Serializable {
     public void setModify(Date modify) {
         this.modify = modify;
     }
+
+    public Voucher getVoucherid() {
+        return voucherid;
+    }
+
+    public void setVoucherid(Voucher voucherid) {
+        this.voucherid = voucherid;
+    }
+
+    
     
 }

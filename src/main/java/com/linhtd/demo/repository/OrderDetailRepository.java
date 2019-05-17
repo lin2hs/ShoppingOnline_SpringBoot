@@ -7,7 +7,7 @@ package com.linhtd.demo.repository;
 
 import com.linhtd.demo.entity.OrderDetail;
 import com.linhtd.demo.entity.OrderDetailIdentity;
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,9 +26,9 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, OrderD
     public List<OrderDetail> paging(Pageable pageable);
     
     //Paging and searching with order id
-    //@Query("SELECT od from OrderDetail od where LOWER(od.orderDetailIdentity.order.id) LIKE CONCAT('%',LOWER(:orderid),'%')")
+    @Query("SELECT od from OrderDetail od where LOWER(od.orderDetailIdentity.order.id) LIKE CONCAT('%',LOWER(:orderid),'%')")
     //old: public List<OrderDetail> findAndPaging(@Param("orderid") String orderid, Pageable pageable);
-    //public List<OrderDetail> findAndPaging(String orderid, Pageable pageable);
+    public List<OrderDetail> findAndPaging(String orderid, Pageable pageable);
     
     // Searching
     @Query("SELECT od FROM OrderDetail od WHERE LOWER(od.orderDetailIdentity.order.id) = LOWER(:orderid)")

@@ -10,6 +10,7 @@ import com.linhtd.demo.repository.UserRepository;
 import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,6 +70,10 @@ public class UserService {
     public User getUserByUserName(String name) {
         User user = userRepository.findByName(name).get();
         return user;
+    }
+    
+    public List<User> getManyUsersByName(String name) {
+        return userRepository.findUsersByName(name);
     }
 
 }

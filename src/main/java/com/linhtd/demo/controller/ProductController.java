@@ -9,7 +9,9 @@ import com.linhtd.demo.repository.ProductRepository;
 import com.linhtd.demo.entity.Product;
 import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -63,6 +66,7 @@ public class ProductController {
                     product.setDescription(editedProduct.getDescription());
                     product.setPrice(editedProduct.getPrice());
                     product.setQuantity(editedProduct.getQuantity());
+                    product.setCategory(editedProduct.getCategory());
                     product.setSupplier(editedProduct.getSupplier());
                     product.setThumbnail(editedProduct.getThumbnail());
                     product.setValid(editedProduct.isValid());
@@ -80,6 +84,22 @@ public class ProductController {
     @CrossOrigin(value = "http://wwww.localhost:4200")
     void delete(@PathVariable int id) {
         productRepository.deleteById(id);
+    }
+
+    // GET item by name and paging
+    @GetMapping(value = "/search")
+    @CrossOrigin(value = "http://wwww.localhost:4200")
+    Iterable<Product> findByName(@RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "page", required = false) Integer page) {
+        if (keyword == null) {
+            keyword = "";
+        }
+        if (page == null) {
+            return productRepository.findByName(keyword);
+        } else {
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "name"));
+            Pageable pageable = new PageRequest(page, 2, sort);
+            return productRepository.findAndPaging(keyword, pageable);
+        }
     }
 
 }

@@ -9,7 +9,9 @@ import com.linhtd.demo.repository.SupplierRepository;
 import com.linhtd.demo.entity.Supplier;
 import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -80,6 +83,22 @@ public class SupplierController {
     @CrossOrigin(value = "http://wwww.localhost:4200")
     void delete(@PathVariable int id) {
         supplierRepository.deleteById(id);
+    }
+
+    // GET item by name and paging
+    @GetMapping(value = "/search")
+    @CrossOrigin(value = "http://wwww.localhost:4200")
+    Iterable<Supplier> findByName(@RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "page", required = false) Integer page) {
+        if (keyword == null) {
+            keyword = "";
+        }
+        if (page == null) {
+            return supplierRepository.findByName(keyword);
+        } else {
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "name"));
+            Pageable pageable = new PageRequest(page, 2, sort);
+            return supplierRepository.findAndPaging(keyword, pageable);
+        }
     }
 
 }

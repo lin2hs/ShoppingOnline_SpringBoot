@@ -9,11 +9,14 @@ import com.linhtd.demo.entity.User;
 import com.linhtd.demo.service.UserService;
 import java.security.Principal;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,6 +72,20 @@ public class UserController {
             result.getContent().get(i).setPassword(null);
         }
         return ResponseEntity.ok(result);
+    }
+
+    // GET item by name and paging
+    @GetMapping(value = "/search")
+    @CrossOrigin(value = "http://wwww.localhost:4200")
+    Iterable<User> findByName(@RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "page", required = false) Integer page) {
+        if (keyword == null) {
+            keyword = "";
+        }
+        if (page == null) {
+            return userService.getManyUsersByName(keyword);
+        } else {
+            return userService.findAllUser(keyword, page, 2);
+        }
     }
 
 }
